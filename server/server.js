@@ -17,14 +17,14 @@ app.use(function validateBearerToken(req,res,next){
     console.log('validate bearer token middleware')
     const correctKey = process.env.API_TOKEN
     const recievedKey = req.get('Authorization')
-    if(correctKey !== recievedKey){
+
+    if(!recievedKey || correctKey !== recievedKey.split(' ')[1]){
         res.send('my guy, ya done buffed. Yo key is wrong, son!')
     } 
     next()
 })
 function handleMovies(req,res){
     let response = MOVIES
-    debugger
     if(req.query.genre){
         response = response.filter(movie => {
             return(
@@ -43,7 +43,7 @@ function handleMovies(req,res){
     if(req.query.avg_vote){
         response = response.filter(movie => {
             return(
-              movie.avg_vote <= Number(req.query.avg_vote)
+              movie.avg_vote >= Number(req.query.avg_vote)
             ) 
         })
     }
