@@ -42,9 +42,8 @@ function handleMovies(req,res){
     }
     if(req.query.avg_vote){
         response = response.filter(movie => {
-            let number = Number(req.query.avg_vote)
             return(
-              movie.ave_vote.includes(number)
+              movie.avg_vote <= Number(req.query.avg_vote)
             ) 
         })
     }
